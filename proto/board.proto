@@ -5,7 +5,7 @@ package board;
 option go_package = "neo.board.v1;board_v1";
 
 //Branch
-service Actions {
+service Board {
   rpc GetBoard (GetBoardRequest) returns (GetBoardResponse);
 }
 
