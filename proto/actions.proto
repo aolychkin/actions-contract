@@ -3,6 +3,7 @@ syntax = "proto3";
 package actions;
 option go_package = "neo.actions.v1;actions_v1";
 
+//Branch
 service Actions {
   rpc GetBoard (GetBoardRequest) returns (GetBoardResponse);
 }
