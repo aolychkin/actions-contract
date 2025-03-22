@@ -13,18 +13,18 @@ message GetBoardRequest {
 
 message GetBoardResponse {
   string id = 1;
-  repeated Columns columns = 2;
-  repeated Cards cards = 3;
+  repeated Column columns = 2;
+  repeated Card cards = 3;
   repeated FieldConfig field_configs = 4;
   repeated FieldType field_types = 5;
 }
 
-message Columns {
+message Column {
   string id = 1;
   string title = 2;
 }
 
-message Cards {
+message Card {
   string id = 1;
   CardMeta card_meta = 2;
   repeated CardField card_fields = 3;
