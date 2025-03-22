@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Actions_GetAction_FullMethodName = "/action.Actions/GetAction"
+	Action_GetAction_FullMethodName = "/action.Action/GetAction"
 )
 
-// ActionsClient is the client API for Actions service.
+// ActionClient is the client API for Action service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ActionsClient interface {
+type ActionClient interface {
 	GetAction(ctx context.Context, in *GetActionRequest, opts ...grpc.CallOption) (*GetActionResponse, error)
 }
 
-type actionsClient struct {
+type actionClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewActionsClient(cc grpc.ClientConnInterface) ActionsClient {
-	return &actionsClient{cc}
+func NewActionClient(cc grpc.ClientConnInterface) ActionClient {
+	return &actionClient{cc}
 }
 
-func (c *actionsClient) GetAction(ctx context.Context, in *GetActionRequest, opts ...grpc.CallOption) (*GetActionResponse, error) {
+func (c *actionClient) GetAction(ctx context.Context, in *GetActionRequest, opts ...grpc.CallOption) (*GetActionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetActionResponse)
-	err := c.cc.Invoke(ctx, Actions_GetAction_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Action_GetAction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ActionsServer is the server API for Actions service.
-// All implementations must embed UnimplementedActionsServer
+// ActionServer is the server API for Action service.
+// All implementations must embed UnimplementedActionServer
 // for forward compatibility.
-type ActionsServer interface {
+type ActionServer interface {
 	GetAction(context.Context, *GetActionRequest) (*GetActionResponse, error)
-	mustEmbedUnimplementedActionsServer()
+	mustEmbedUnimplementedActionServer()
 }
 
-// UnimplementedActionsServer must be embedded to have
+// UnimplementedActionServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedActionsServer struct{}
+type UnimplementedActionServer struct{}
 
-func (UnimplementedActionsServer) GetAction(context.Context, *GetActionRequest) (*GetActionResponse, error) {
+func (UnimplementedActionServer) GetAction(context.Context, *GetActionRequest) (*GetActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAction not implemented")
 }
-func (UnimplementedActionsServer) mustEmbedUnimplementedActionsServer() {}
-func (UnimplementedActionsServer) testEmbeddedByValue()                 {}
+func (UnimplementedActionServer) mustEmbedUnimplementedActionServer() {}
+func (UnimplementedActionServer) testEmbeddedByValue()                {}
 
-// UnsafeActionsServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ActionsServer will
+// UnsafeActionServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ActionServer will
 // result in compilation errors.
-type UnsafeActionsServer interface {
-	mustEmbedUnimplementedActionsServer()
+type UnsafeActionServer interface {
+	mustEmbedUnimplementedActionServer()
 }
 
-func RegisterActionsServer(s grpc.ServiceRegistrar, srv ActionsServer) {
-	// If the following call pancis, it indicates UnimplementedActionsServer was
+func RegisterActionServer(s grpc.ServiceRegistrar, srv ActionServer) {
+	// If the following call pancis, it indicates UnimplementedActionServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Actions_ServiceDesc, srv)
+	s.RegisterService(&Action_ServiceDesc, srv)
 }
 
-func _Actions_GetAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Action_GetAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ActionsServer).GetAction(ctx, in)
+		return srv.(ActionServer).GetAction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Actions_GetAction_FullMethodName,
+		FullMethod: Action_GetAction_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ActionsServer).GetAction(ctx, req.(*GetActionRequest))
+		return srv.(ActionServer).GetAction(ctx, req.(*GetActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Actions_ServiceDesc is the grpc.ServiceDesc for Actions service.
+// Action_ServiceDesc is the grpc.ServiceDesc for Action service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Actions_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "action.Actions",
-	HandlerType: (*ActionsServer)(nil),
+var Action_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "action.Action",
+	HandlerType: (*ActionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetAction",
-			Handler:    _Actions_GetAction_Handler,
+			Handler:    _Action_GetAction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

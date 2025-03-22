@@ -4,7 +4,7 @@ package action;
 
 option go_package = "neo.action.v1;action_v1";
 
-service Actions {
+service Action {
   rpc GetAction (GetActionRequest) returns (GetActionResponse);
 }
 
