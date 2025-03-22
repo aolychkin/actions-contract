@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package actions;
+option go_package = "neo.actions.v1;actions_v1";
+
+service Actions {
+  rpc GetBoard (GetBoardRequest) returns (GetBoardResponse);
+}
+
+message GetBoardRequest {
+  string id = 1;
+}
+
+message GetBoardResponse {
+  string id = 1;
+  repeated Columns columns = 2;
+  repeated Cards cards = 3;
+  repeated FieldConfig field_configs = 4;
+  repeated FieldType field_types = 5;
+}
+
+message Columns {
+  string id = 1;
+  string title = 2;
+}
+
+message Cards {
+  string id = 1;
+  CardMeta card_meta = 2;
+  repeated CardField card_fields = 3;
+}
+
+message CardMeta {
+  string boardID = 1;
+  string columnID = 2;
+  int32 order = 3;
+  string createdBy = 4;
+  string createdAt = 5;
+  string updatedBy = 6;
+  string updatedAt = 7;
+  string type = 8;
+  string project = 9;
+  string sprint = 10;
+}
+  
+message CardField {
+  string id = 1;
+  string configID = 2;
+  repeated string values = 3; //TODO: Что значит [packed=true]?
+}
+
+message FieldConfig {
+  string id = 1;
+  string name = 2;
+  string alias = 3;
+  string valueTypeID = 4;
+  string defaultValue = 5;
+  string valueSource = 6;
+  repeated string availableValues = 7;
+  CardFieldVisual visual = 8;
+}
+message CardFieldVisual {
+  CardFieldVisualOnBoard board = 1;
+  CardFieldVisualInModal modal = 2;
+}
+message CardFieldVisualOnBoard {
+  int32 row_order = 1;
+  int32 column_order = 2;
+  int32 size = 3;
+}
+message CardFieldVisualInModal { 
+  string categoryID = 1;
+  int32 order = 2;
+}
+
+message FieldType {
+  string id = 1;
+  string name = 2;
+  string alias = 3;
+  bool is_custom = 4;
+  repeated int32 available_sizes = 5 [packed=true];
+}
