@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.3
-// source: actions.proto
+// source: board.proto
 
-package actions_v1
+package board_v1
 
 import (
 	context "context"
@@ -19,12 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Actions_GetBoard_FullMethodName = "/actions.Actions/GetBoard"
+	Actions_GetBoard_FullMethodName = "/board.Actions/GetBoard"
 )
 
 // ActionsClient is the client API for Actions service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// Branch
 type ActionsClient interface {
 	GetBoard(ctx context.Context, in *GetBoardRequest, opts ...grpc.CallOption) (*GetBoardResponse, error)
 }
@@ -50,6 +52,8 @@ func (c *actionsClient) GetBoard(ctx context.Context, in *GetBoardRequest, opts 
 // ActionsServer is the server API for Actions service.
 // All implementations must embed UnimplementedActionsServer
 // for forward compatibility.
+//
+// Branch
 type ActionsServer interface {
 	GetBoard(context.Context, *GetBoardRequest) (*GetBoardResponse, error)
 	mustEmbedUnimplementedActionsServer()
@@ -108,7 +112,7 @@ func _Actions_GetBoard_Handler(srv interface{}, ctx context.Context, dec func(in
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Actions_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "actions.Actions",
+	ServiceName: "board.Actions",
 	HandlerType: (*ActionsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -117,5 +121,5 @@ var Actions_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "actions.proto",
+	Metadata: "board.proto",
 }

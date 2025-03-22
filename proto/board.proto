@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-package actions;
-option go_package = "neo.actions.v1;actions_v1";
+package board;
+
+option go_package = "neo.board.v1;board_v1";
 
 //Branch
 service Actions {
@@ -10,6 +11,7 @@ service Actions {
 
 message GetBoardRequest {
   string id = 1;
+  //Сортировка
 }
 
 message GetBoardResponse {
