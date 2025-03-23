@@ -4,36 +4,38 @@ package board;
 
 option go_package = "neo.board.v1;board_v1";
 
-//Branch
-service Board {
+service BoardService {
   rpc GetBoard (GetBoardRequest) returns (GetBoardResponse);
 }
 
+// ____ GET BOARD () ____ //
 message GetBoardRequest {
   string id = 1;
   //Сортировка
 }
-
 message GetBoardResponse {
-  string id = 1;
-  repeated Column columns = 2;
-  repeated Card cards = 3;
-  repeated FieldConfig field_configs = 4;
-  repeated FieldType field_types = 5;
+  TBoard board = 1;
 }
 
-message Column {
+// ____ BOARD TYPES ____ //
+message TBoard {
+  string id = 1;
+  string key = 2;
+  repeated TColumn columns = 3;
+  repeated TCard cards = 4;
+  repeated TFieldConfig field_configs = 5;
+  repeated TFieldType field_types = 6;
+}
+message TColumn {
   string id = 1;
   string title = 2;
 }
-
-message Card {
+message TCard {
   string id = 1;
-  CardMeta card_meta = 2;
-  repeated CardField card_fields = 3;
+  TCardMeta card_meta = 2;
+  repeated TCardField card_fields = 3;
 }
-
-message CardMeta {
+message TCardMeta {
   string boardID = 1;
   string columnID = 2;
   int32 order = 3;
@@ -45,14 +47,12 @@ message CardMeta {
   string project = 9;
   string sprint = 10;
 }
-  
-message CardField {
+message TCardField {
   string id = 1;
   string configID = 2;
   repeated string values = 3; //TODO: Что значит [packed=true]?
 }
-
-message FieldConfig {
+message TFieldConfig {
   string id = 1;
   string name = 2;
   string alias = 3;
@@ -60,23 +60,22 @@ message FieldConfig {
   string defaultValue = 5;
   string valueSource = 6;
   repeated string availableValues = 7;
-  CardFieldVisual visual = 8;
+  TCardFieldVisual visual = 8;
 }
-message CardFieldVisual {
-  CardFieldVisualOnBoard board = 1;
-  CardFieldVisualInModal modal = 2;
+message TCardFieldVisual {
+  TCardFieldVisualOnBoard board = 1;
+  TCardFieldVisualInModal modal = 2;
 }
-message CardFieldVisualOnBoard {
+message TCardFieldVisualOnBoard {
   int32 row_order = 1;
   int32 column_order = 2;
   int32 size = 3;
 }
-message CardFieldVisualInModal { 
+message TCardFieldVisualInModal { 
   string categoryID = 1;
   int32 order = 2;
 }
-
-message FieldType {
+message TFieldType {
   string id = 1;
   string name = 2;
   string alias = 3;
