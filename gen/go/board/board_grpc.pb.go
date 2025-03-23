@@ -19,105 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Board_GetBoard_FullMethodName = "/board.Board/GetBoard"
+	BoardService_GetBoard_FullMethodName = "/board.BoardService/GetBoard"
 )
 
-// BoardClient is the client API for Board service.
+// BoardServiceClient is the client API for BoardService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// Branch
-type BoardClient interface {
+type BoardServiceClient interface {
 	GetBoard(ctx context.Context, in *GetBoardRequest, opts ...grpc.CallOption) (*GetBoardResponse, error)
 }
 
-type boardClient struct {
+type boardServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewBoardClient(cc grpc.ClientConnInterface) BoardClient {
-	return &boardClient{cc}
+func NewBoardServiceClient(cc grpc.ClientConnInterface) BoardServiceClient {
+	return &boardServiceClient{cc}
 }
 
-func (c *boardClient) GetBoard(ctx context.Context, in *GetBoardRequest, opts ...grpc.CallOption) (*GetBoardResponse, error) {
+func (c *boardServiceClient) GetBoard(ctx context.Context, in *GetBoardRequest, opts ...grpc.CallOption) (*GetBoardResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetBoardResponse)
-	err := c.cc.Invoke(ctx, Board_GetBoard_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, BoardService_GetBoard_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// BoardServer is the server API for Board service.
-// All implementations must embed UnimplementedBoardServer
+// BoardServiceServer is the server API for BoardService service.
+// All implementations must embed UnimplementedBoardServiceServer
 // for forward compatibility.
-//
-// Branch
-type BoardServer interface {
+type BoardServiceServer interface {
 	GetBoard(context.Context, *GetBoardRequest) (*GetBoardResponse, error)
-	mustEmbedUnimplementedBoardServer()
+	mustEmbedUnimplementedBoardServiceServer()
 }
 
-// UnimplementedBoardServer must be embedded to have
+// UnimplementedBoardServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedBoardServer struct{}
+type UnimplementedBoardServiceServer struct{}
 
-func (UnimplementedBoardServer) GetBoard(context.Context, *GetBoardRequest) (*GetBoardResponse, error) {
+func (UnimplementedBoardServiceServer) GetBoard(context.Context, *GetBoardRequest) (*GetBoardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBoard not implemented")
 }
-func (UnimplementedBoardServer) mustEmbedUnimplementedBoardServer() {}
-func (UnimplementedBoardServer) testEmbeddedByValue()               {}
+func (UnimplementedBoardServiceServer) mustEmbedUnimplementedBoardServiceServer() {}
+func (UnimplementedBoardServiceServer) testEmbeddedByValue()                      {}
 
-// UnsafeBoardServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to BoardServer will
+// UnsafeBoardServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BoardServiceServer will
 // result in compilation errors.
-type UnsafeBoardServer interface {
-	mustEmbedUnimplementedBoardServer()
+type UnsafeBoardServiceServer interface {
+	mustEmbedUnimplementedBoardServiceServer()
 }
 
-func RegisterBoardServer(s grpc.ServiceRegistrar, srv BoardServer) {
-	// If the following call pancis, it indicates UnimplementedBoardServer was
+func RegisterBoardServiceServer(s grpc.ServiceRegistrar, srv BoardServiceServer) {
+	// If the following call pancis, it indicates UnimplementedBoardServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Board_ServiceDesc, srv)
+	s.RegisterService(&BoardService_ServiceDesc, srv)
 }
 
-func _Board_GetBoard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BoardService_GetBoard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetBoardRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BoardServer).GetBoard(ctx, in)
+		return srv.(BoardServiceServer).GetBoard(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Board_GetBoard_FullMethodName,
+		FullMethod: BoardService_GetBoard_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BoardServer).GetBoard(ctx, req.(*GetBoardRequest))
+		return srv.(BoardServiceServer).GetBoard(ctx, req.(*GetBoardRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Board_ServiceDesc is the grpc.ServiceDesc for Board service.
+// BoardService_ServiceDesc is the grpc.ServiceDesc for BoardService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Board_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "board.Board",
-	HandlerType: (*BoardServer)(nil),
+var BoardService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "board.BoardService",
+	HandlerType: (*BoardServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetBoard",
-			Handler:    _Board_GetBoard_Handler,
+			Handler:    _BoardService_GetBoard_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
