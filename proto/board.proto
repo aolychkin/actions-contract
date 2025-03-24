@@ -7,7 +7,7 @@ option go_package = "neo.board.v1;board_v1";
 service BoardService {
   rpc GetBoard (GetBoardRequest) returns (GetBoardResponse);
 }
-
+//TODO: сделать запросы менее жирными. Отправлять только то, что нужно для модуля доски
 // ____ GET BOARD () ____ //
 message GetBoardRequest {
   string id = 1;
@@ -22,63 +22,65 @@ message TBoard {
   string id = 1;
   string key = 2;
   repeated TColumn columns = 3;
-  repeated TCard cards = 4;
+  repeated TSprint sprints = 4;
   repeated TFieldConfig field_configs = 5;
-  repeated TFieldType field_types = 6;
+  repeated TCardConfig card_configs = 6;
 }
+
+// ____ COLUMN TYPES ____ //
 message TColumn {
   string id = 1;
-  string title = 2;
+  string name = 2;
+  repeated TCurrentStep steps = 3;
+  repeated TCard on_board_action = 4;
+}
+message TCurrentStep {
+  string id = 1;
+  string name = 2;
+  string workflow_status = 3;
 }
 message TCard {
   string id = 1;
-  TCardMeta card_meta = 2;
-  repeated TCardField card_fields = 3;
+  uint32 order = 2;
+  string column_id = 3;
+  uint32 action_num = 4;
+  string current_step_id = 5;
+  repeated string sprint_ids = 6;
+  repeated TActionField fields = 7;
 }
-message TCardMeta {
-  string boardID = 1;
-  string columnID = 2;
-  int32 order = 3;
-  string createdBy = 4;
-  string createdAt = 5;
-  string updatedBy = 6;
-  string updatedAt = 7;
-  string type = 8;
-  string project = 9;
-  string sprint = 10;
-}
-message TCardField {
+message TActionField {
   string id = 1;
-  string configID = 2;
-  repeated string values = 3; //TODO: Что значит [packed=true]?
+  string value = 2;
+  string config_id = 3;
+}
+
+// ____ CONFIG TYPES ____ //
+//TODO: отправлять только те поля, которые используются в конфиге доски
+message TCardConfig {
+  string id = 1;
+  uint32 row_order = 2;
+  uint32 column_order = 3;
+  uint32 size = 4;
+  string field_config_id = 5;
 }
 message TFieldConfig {
   string id = 1;
   string name = 2;
   string alias = 3;
-  string valueTypeID = 4;
+  TFieldType field_type = 4;
   string defaultValue = 5;
-  string valueSource = 6;
-  repeated string availableValues = 7;
-  TCardFieldVisual visual = 8;
+  string availableValues = 7;
 }
-message TCardFieldVisual {
-  TCardFieldVisualOnBoard board = 1;
-  TCardFieldVisualInModal modal = 2;
-}
-message TCardFieldVisualOnBoard {
-  int32 row_order = 1;
-  int32 column_order = 2;
-  int32 size = 3;
-}
-message TCardFieldVisualInModal { 
-  string categoryID = 1;
-  int32 order = 2;
-}
+
 message TFieldType {
   string id = 1;
   string name = 2;
   string alias = 3;
   bool is_custom = 4;
-  repeated int32 available_sizes = 5 [packed=true];
+  repeated string available_sizes = 5;
+}
+
+// ____ OTHER TYPES ____ //
+message TSprint {
+  string name = 1;
 }
