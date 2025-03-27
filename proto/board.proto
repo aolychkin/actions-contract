@@ -20,7 +20,7 @@ message GetBoardResponse {
 // ____ BOARD TYPES ____ //
 message TBoard {
   string id = 1;
-  string key = 2;
+  string key = 2; //У задачи должен быть кей
   repeated TColumn columns = 3;
   repeated TSprint sprints = 4;
   repeated TFieldConfig field_configs = 5;
@@ -82,5 +82,6 @@ message TFieldType {
 
 // ____ OTHER TYPES ____ //
 message TSprint {
-  string name = 1;
+  string id = 1;
+  string name = 2;
 }
